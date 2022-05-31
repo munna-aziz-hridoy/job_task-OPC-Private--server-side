@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const getUsers = require("./routes/get.users.route");
 const postUsers = require("./routes/post.user.route");
+const deleteUser = require("./routes/delete.user.route");
 const client = require("./db/db");
 
 // create app
@@ -23,6 +24,7 @@ const run = async () => {
   await client.connect();
   app.use(getUsers);
   app.use(postUsers);
+  app.use(deleteUser);
 };
 
 run().catch(console.dir);
