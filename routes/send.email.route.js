@@ -1,30 +1,36 @@
 const express = require("express");
-const mailgun = require("mailgun-js");
 const { ObjectId } = require("mongodb");
 require("dotenv").config();
 const client = require("../db/db");
+
+// email config
+
+const nodeoutlook = require("nodejs-nodemailer-outlook");
+
+// ------------------
 
 const router = express.Router();
 
 const usersCollection = client.db("task-data").collection("users");
 
-const emailClient = mailgun({
-  apiKey: process.env.EMAIL_SENDER_API,
-  domain: process.env.EMAIL_SENDER_DOMAIN,
-});
-
 const sendEmail = (emailData) => {
-  const mailData = {
-    from: "JOB Task By Munna Aziz <munna.aziz.hridoy@gmail.com>",
-    ...emailData,
-  };
-  emailClient.messages().send(mailData, (err, body) => {
-    if (err) {
-      console.log(err.message);
-      return;
-    }
+  const { to, subject, html, text } = emailData;
+
+  nodeoutlook.sendEmail({
+    auth: {
+      user: "munna.aziz.hridoy@outlook.com",
+      pass: "123456789Aa",
+    },
+    from: "munna.aziz.hridoy@outlook.com",
+    to,
+    subject,
+    html,
+    text,
+    replyTo: "munna.aziz.hridoy@outlook.com",
+
+    onError: (e) => console.log(e),
+    onSuccess: (i) => console.log(i),
   });
-  emailClient.messages();
 };
 
 const createEmailTable = (usersData) => {
@@ -77,13 +83,13 @@ router.post("/sendEmail", async (req, res) => {
   const selectedData = await usersCollection.find(filter).toArray();
   const html = createEmailTable(selectedData);
   const emailData = {
-    to: "taha.iu.bd@gmail.com",
+    to: "taha.iu.bd@gmail.com, munna.aziz.hridoy@gmail.com, munna.aziz.hridoy.ca.hridoy@gmail.com",
     subject: "JOb task assignment data (Munna Aziz)",
     text: "Data from task",
     html,
   };
-  sendEmail(emailData);
-  res.send({ success: true });
+  const result = sendEmail(emailData);
+  res.send(result);
 });
 
 module.exports = router;
