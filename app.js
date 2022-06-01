@@ -7,6 +7,7 @@ const getUsers = require("./routes/get.users.route");
 const postUsers = require("./routes/post.user.route");
 const deleteUser = require("./routes/delete.user.route");
 const updateUser = require("./routes/update.user.route");
+const sendEmailData = require("./routes/send.email.route");
 const client = require("./db/db");
 
 // create app
@@ -27,6 +28,7 @@ const run = async () => {
   app.use(postUsers);
   app.use(deleteUser);
   app.use(updateUser);
+  app.use(sendEmailData);
 };
 
 run().catch(console.dir);
