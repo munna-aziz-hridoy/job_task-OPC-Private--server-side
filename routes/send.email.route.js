@@ -83,6 +83,7 @@ router.post("/sendEmail", async (req, res) => {
     html,
   };
   sendEmail(emailData);
+  res.send({ success: true });
 });
 
 module.exports = router;

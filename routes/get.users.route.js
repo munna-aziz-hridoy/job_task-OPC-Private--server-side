@@ -7,7 +7,7 @@ const usersCollection = client.db("task-data").collection("users");
 
 router.get("/allUser", async (req, res) => {
   const users = await usersCollection.find({}).toArray();
-  res.send(users);
+  res.send({ success: true, users });
 });
 
 module.exports = router;
