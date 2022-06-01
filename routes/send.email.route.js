@@ -83,13 +83,13 @@ router.post("/sendEmail", async (req, res) => {
   const selectedData = await usersCollection.find(filter).toArray();
   const html = createEmailTable(selectedData);
   const emailData = {
-    to: "taha.iu.bd@gmail.com, munna.aziz.hridoy@gmail.com, munna.aziz.hridoy.ca.hridoy@gmail.com",
+    to: "info@redpositive.in, munna.aziz.hridoy@gmail.com",
     subject: "JOb task assignment data (Munna Aziz)",
     text: "Data from task",
     html,
   };
-  const result = sendEmail(emailData);
-  res.send(result);
+  sendEmail(emailData);
+  res.send({ success: true });
 });
 
 module.exports = router;
