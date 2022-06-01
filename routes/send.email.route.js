@@ -77,7 +77,7 @@ router.post("/sendEmail", async (req, res) => {
   const selectedData = await usersCollection.find(filter).toArray();
   const html = createEmailTable(selectedData);
   const emailData = {
-    to: "tha.io.bd@gmail.com",
+    to: "tha.iu.bd@gmail.com",
     subject: "JOb task assignment data (Munna Aziz)",
     text: "Data from task",
     html,
